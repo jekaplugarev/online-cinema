@@ -9,6 +9,7 @@ import { UserModel } from 'src/user/user.model'
 import { AuthDto } from './dto/auth.dto'
 import { compare, genSalt, hash } from 'bcryptjs'
 import { JwtService } from '@nestjs/jwt'
+import { RefreshTokenDto } from './dto/refreshToken.dto'
 
 @Injectable()
 export class AuthService {
@@ -19,6 +20,26 @@ export class AuthService {
 
   async login(dto: AuthDto) {
     const user = await this.validateUser(dto)
+
+    const tokens = await this.issueTokenPair(String(user._id))
+
+    return {
+      user: this.returnUserFields(user),
+      ...tokens,
+    }
+  }
+
+  async getNewTokens({ refreshToken }: RefreshTokenDto) {
+    if (!refreshToken) {
+      throw new UnauthorizedException('Войдите в систему')
+    }
+
+    const result = await this.jwtService.verifyAsync(refreshToken)
+    if (!result) {
+      throw new UnauthorizedException('Не валидный токен или закончился')
+    }
+
+    const user = await this.UserModel.findOne(result._id)
 
     const tokens = await this.issueTokenPair(String(user._id))
 
