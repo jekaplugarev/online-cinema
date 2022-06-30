@@ -39,7 +39,7 @@ export class AuthService {
       throw new UnauthorizedException('Не валидный токен или закончился')
     }
 
-    const user = await this.UserModel.findOne(result._id)
+    const user = await this.UserModel.findById(result._id)
 
     const tokens = await this.issueTokenPair(String(user._id))
 
@@ -60,12 +60,15 @@ export class AuthService {
     const newUser = new this.UserModel({
       email: dto.email,
       password: await hash(dto.password, salt),
+      isAdmin: dto.isAdmin,
     })
 
-    const tokens = await this.issueTokenPair(String(newUser._id))
+    const user = await newUser.save()
+
+    const tokens = await this.issueTokenPair(String(user._id))
 
     return {
-      user: this.returnUserFields(newUser),
+      user: this.returnUserFields(user),
       ...tokens,
     }
   }

@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MinLength } from 'class-validator'
+import { IsBoolean, IsEmail, IsString, MinLength } from 'class-validator'
 
 export class AuthDto {
   @IsEmail()
@@ -9,4 +9,7 @@ export class AuthDto {
     message: 'Пароль не может быть меньше 6 символов',
   })
   password: string
+
+  @IsBoolean()
+  isAdmin: boolean
 }
