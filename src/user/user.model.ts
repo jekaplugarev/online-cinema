@@ -4,7 +4,7 @@ import { prop } from '@typegoose/typegoose'
 export interface UserModel extends Base {}
 
 export class UserModel extends TimeStamps {
-  @prop({ unique: false })
+  @prop({ unique: true })
   email: string
 
   @prop()
