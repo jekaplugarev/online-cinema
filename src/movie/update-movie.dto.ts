@@ -1,10 +1,4 @@
-import {
-  IsArray,
-  IsBoolean,
-  IsNumber,
-  IsObject,
-  IsString,
-} from 'class-validator'
+import { IsArray, IsNumber, IsObject, IsString } from 'class-validator'
 
 export class Parameters {
   @IsNumber()
@@ -17,7 +11,7 @@ export class Parameters {
   country: string
 }
 
-export class CreateMovieDto {
+export class UpdateMovieDto {
   @IsString()
   poster: string
 
@@ -28,15 +22,11 @@ export class CreateMovieDto {
   title: string
 
   @IsString()
-  description: string
-
-  @IsString()
   slug: string
 
   @IsObject()
   parameters?: Parameters
 
-  @IsNumber()
   rating?: number
 
   @IsString()
@@ -50,6 +40,5 @@ export class CreateMovieDto {
   @IsString({ each: true })
   actors: string[]
 
-  @IsBoolean()
   isSendTelegram?: boolean
 }
