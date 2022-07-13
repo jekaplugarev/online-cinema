@@ -60,7 +60,6 @@ export class AuthService {
     const newUser = new this.UserModel({
       email: dto.email,
       password: await hash(dto.password, salt),
-      isAdmin: dto.isAdmin,
     })
 
     const user = await newUser.save()
@@ -103,7 +102,6 @@ export class AuthService {
     return {
       _id: user._id,
       email: user.email,
-      isAdmin: user.isAdmin,
     }
   }
 }
