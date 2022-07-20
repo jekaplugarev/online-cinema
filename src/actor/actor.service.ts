@@ -38,9 +38,9 @@ export class ActorService {
       .match(options)
       .lookup({
         from: 'Movie',
-        localField: '_id',
         foreignField: 'actors',
-        as: 'movie',
+        localField: '_id',
+        as: 'movies',
       })
       .addFields({
         countMovies: {
